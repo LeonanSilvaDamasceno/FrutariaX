@@ -1,0 +1,118 @@
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+
+public class X {
+    public static void main (String [] args ){
+
+        int t_ini = -7, t_log, t_cad, t_f = -7, t_e = -7, t_v = -7, id = 0, id_counter, id_cont = 0; //O
+
+        String [] ini   = {"Login", "Cadastro", "Sair"}; //Ala de butões
+        String [] ops_G = {"Confirmar", "Cancelar"};
+        String [] ops_F = {"Verificar estoque", "Lucros", "Verificar usuários", "Log-out"};
+        String [] est_F = {"Adicionar alimentos", "Remover alimentos", "Concluir"};
+        String [] ver_F = {"Pesquisar por ID","Próximo", "Anterior", "Sair"};
+        String [] ops_C = {"Comprar produtos", "Promoções da vez", "Parceiros"};
+        String [] fru   = {"Carrinho", "Finalizar compra"};
+        String [] car   = {"Ok", "Remover produtos"};
+
+        String [][][][] log = new String [6893][2][2][2];//Ala de armazenamento de valores
+        String [][] frutas = new String [20][2];
+        
+        JTextField usu = new JTextField(); //Ala de criação campos de texto
+        JTextField sen = new JTextField();
+        JTextField end = new JTextField();
+        JTextField tel = new JTextField();
+        JTextField vid = new JTextField();
+
+        Object [] o_log = {"Usuário: ", usu, "Senha: ", sen}; //Ala de agrupamento entre mensagens e campos de texto
+        Object [] o_cad = {"Nome: ", usu, "Senha: ", sen, "Endereço: ", end, "Telefone: ", tel};
+        Object [] v_ids = {"Digite o id logo a baixo:", vid};
+        Object [] e_fru = {frutas};
+
+        while (t_ini != 2) { //Enquanto opção "Sair" não for selecionada na tela inicial
+            t_ini = JOptionPane.showOptionDialog(null, "Seja bem vinda(o) a frutaria X onde a qualidade está em variedade!",
+                                            "Frutaria X: Tela inicial", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, ini, ini[2]);
+            if (t_ini == 1) { //Opção de cadastro
+                t_cad = JOptionPane.showOptionDialog(null, o_cad, "Tela de Cadastro", JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.PLAIN_MESSAGE, null, ops_G, ops_G[1]);
+
+                if (t_cad == 0) { //Opção concluir de cadastro
+                    if (id <= 6897 && !usu.getText().equals("") && !sen.getText().equals("") && !end.getText().equals("") && !tel.getText().equals("")) {
+                        log[id][0][0][0] = usu.getText() ;
+                        log[id][0][0][1] = sen.getText();
+                        log[id][0][1][1] = end.getText();
+                        log[id][1][1][1] = tel.getText();
+                        id++;
+                        JOptionPane.showMessageDialog(null, "Usuário cadastrado com êxito!", "Cadastro concluído!",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    if (usu.getText().equals("") || sen.getText().equals("") || end.getText().equals("") || tel.getText().equals("")) {
+                        JOptionPane.showMessageDialog(null, "Por favor, tente novamente " + "com todos os campos preenchidos",
+                                "ERR0R, campos vazios foram detectados...", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+            if (t_ini == 0) { //Opção 'Login'
+                t_log = JOptionPane.showOptionDialog(null, o_log, "Tela de Login", JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.PLAIN_MESSAGE, null, ops_G, ops_G[1]);
+
+                if (t_log == 0) { //Se opção "Confirmar" de 'Login'
+
+                    if ((usu.getText().equalsIgnoreCase("Laila") && sen.getText().equalsIgnoreCase("admin"))
+                       ||(usu.getText().equalsIgnoreCase("TheLegend27") && sen.getText().equalsIgnoreCase("admin"))) { //Logins de funcionários
+                        while (t_f != 3) { //Enquanto diferente de 'Log-out'
+                            t_f = JOptionPane.showOptionDialog(null, "Um ótimo dia de trabalho, Sr(a)" + usu.getText() + "!",
+                                    "Opções de administração", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, ops_F, ops_F[3]);
+                            if (t_f == 0) {//Se opção "Verificar de estoque"
+
+                            }
+                            if (t_f == 1) { //Se opção "Lucros"
+
+                            }
+                            if (t_f == 2) { //Se opção "Verificar 'usuários'"
+                                while (t_v != 3) {
+                                    try {
+                                        t_v = JOptionPane.showOptionDialog(null, "ID " + id_cont + ":\n" +
+                                                        "Usuário: " + log[id_cont][0][0][0] + "\nEndereço: " + log[id_cont][0][1][1]
+                                                        + "\nTelefone: " + log[id_cont][1][1][1], "Listagem de usuários",
+                                                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, ver_F, ver_F[3]);
+                                        if (t_v == 0) //Opção "Próximo"
+                                            id_cont++;
+                                        if (t_v == 1) //Opção "Anterior"
+                                            id_cont--;
+                                        if (t_v == 2) { //Opção "Escolher id"
+                                            JOptionPane.showOptionDialog(null, v_ids, "Verificação por ID",
+                                                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, ops_G, ops_G[1]);
+                                            id_cont = Integer.parseInt(vid.getText());
+                                        }
+                                    } catch (ArrayIndexOutOfBoundsException e) {
+                                        JOptionPane.showOptionDialog(null, "Não há um usuário com este ID!\n",
+                                                "ERR0R", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, ops_G, ops_G[1]);
+                                        id_cont = 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+/*
+JOptionPane.showOptionDialog(null, "msg", "title", JOptionPane.DEFAULT_OPTION, 3, null, array, array[1]);
+
+JTextField  = new JTextField;
+var = nome_JTextField.getText();
+
+Object []  = {};
+
+log [id][0][0][0] = nome;
+log [id][0][0][1] = senha;
+log [id][0][1][1] = endereço;
+log [id][1][1][1] = telefone;
+
+frutas [x][0] = "Nome: Fruta";
+frutas [x][0] = "Preço: XX.XX";
+*/
