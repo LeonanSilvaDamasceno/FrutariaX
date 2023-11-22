@@ -2,47 +2,53 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 
-public class X {
+public class frutariaCeleste {
     public static void main (String [] args ){
 
-        int t_ini = -7, t_log, t_cad, t_f = -7, t_e = -7, t_v = -7, id = 0, id_counter, id_cont = 0; //O
+        int t_ini = -7, t_log, t_cad, t_f = -7, t_e = -7, t_c = -7, t_car = -7,  t_v = -7, t_cin = -7, id = 0, id_counter, id_cont = 0; //O
 
-        String [] ini   = {"Login", "Cadastro", "Sair"}; //Ala de butões
+        //Ala de butões
+        String [] ini   = {"Login", "Cadastro", "Sair"};
         String [] ops_G = {"Confirmar", "Cancelar"};
         String [] ops_F = {"Verificar estoque", "Lucros", "Verificar usuários", "Log-out"};
         String [] est_F = {"Adicionar alimentos", "Remover alimentos", "Concluir"};
-        String [] ver_F = {"Pesquisar por ID","Próximo", "Anterior", "Sair"};
-        String [] ops_C = {"Comprar produtos", "Promoções da vez", "Parceiros"};
-        String [] fru   = {"Carrinho", "Finalizar compra"};
-        String [] car   = {"Ok", "Remover produtos"};
+        String [] ver_F = {"Próximo", "Anterior","Pesquisar por ID", "Sair"};
+        String [] ops_C = {"Comprar produtos", "Promoções da vez", "Parceiro", "Log-out"};
+        String [] fru   = {"Adicionar", "Carrinho", "Finalizar compra"};
+        String [] car   = {"Remover produtos", "Ok"};
 
-        String [][][][] log = new String [6893][2][2][2];//Ala de armazenamento de valores
-        String [][] frutas = new String [20][2];
-        
-        JTextField usu = new JTextField(); //Ala de criação campos de texto
+        //Ala de armazenamento de valores
+        String [][][] frutas =  new String [99][2][2];
+        String [][][] orders =  new String [6897][1][1];
+        String [][][][][] log = new String [6897][2][2][2][2];
+
+        //Ala de criação campos de texto
+        JTextField usu = new JTextField();
         JTextField sen = new JTextField();
+        JTextField idx = new JTextField();
         JTextField end = new JTextField();
         JTextField tel = new JTextField();
         JTextField vid = new JTextField();
 
-        Object [] o_log = {"Usuário: ", usu, "Senha: ", sen}; //Ala de agrupamento entre mensagens e campos de texto
+        Object [] o_log = {"Identificador:", idx,"Usuário: ", usu, "Senha: ", sen, }; //Ala de agrupamento entre mensagens e campos de texto
         Object [] o_cad = {"Nome: ", usu, "Senha: ", sen, "Endereço: ", end, "Telefone: ", tel};
         Object [] v_ids = {"Digite o id logo a baixo:", vid};
         Object [] e_fru = {frutas};
 
         while (t_ini != 2) { //Enquanto opção "Sair" não for selecionada na tela inicial
-            t_ini = JOptionPane.showOptionDialog(null, "Seja bem vinda(o) a frutaria X onde a qualidade está em variedade!",
-                                            "Frutaria X: Tela inicial", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, ini, ini[2]);
+            t_ini = JOptionPane.showOptionDialog(null, "Seja bem vinda(o) a frutaria Celeste onde a qualidade vem em variedade!",
+                                            "Frutaria Celeste: Tela inicial", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, ini, ini[2]);
             if (t_ini == 1) { //Opção de cadastro
                 t_cad = JOptionPane.showOptionDialog(null, o_cad, "Tela de Cadastro", JOptionPane.DEFAULT_OPTION,
                         JOptionPane.PLAIN_MESSAGE, null, ops_G, ops_G[1]);
 
                 if (t_cad == 0) { //Opção concluir de cadastro
                     if (id <= 6897 && !usu.getText().equals("") && !sen.getText().equals("") && !end.getText().equals("") && !tel.getText().equals("")) {
-                        log[id][0][0][0] = usu.getText() ;
-                        log[id][0][0][1] = sen.getText();
-                        log[id][0][1][1] = end.getText();
-                        log[id][1][1][1] = tel.getText();
+                        log[id][0][0][0][0] = usu.getText() ;
+                        log[id][0][0][0][1] = sen.getText();
+                        log[id][0][0][1][1] = end.getText();
+                        log[id][0][1][1][1] = tel.getText();
+                        log[id][1][1][1][1] = "Não";
                         id++;
                         JOptionPane.showMessageDialog(null, "Usuário cadastrado com êxito!", "Cadastro concluído!",
                                 JOptionPane.INFORMATION_MESSAGE);
@@ -56,11 +62,49 @@ public class X {
             if (t_ini == 0) { //Opção 'Login'
                 t_log = JOptionPane.showOptionDialog(null, o_log, "Tela de Login", JOptionPane.DEFAULT_OPTION,
                         JOptionPane.PLAIN_MESSAGE, null, ops_G, ops_G[1]);
-
                 if (t_log == 0) { //Se opção "Confirmar" de 'Login'
+                    try {
+                        if (usu.getText().equals(log[Integer.parseInt(idx.getText())][0][0][0][0]) //Verificação de clientela
+                                && sen.getText().equals(log[Integer.parseInt(idx.getText())][0][0][0][1])) {
 
-                    if ((usu.getText().equalsIgnoreCase("Laila") && sen.getText().equalsIgnoreCase("admin"))
-                       ||(usu.getText().equalsIgnoreCase("TheLegend27") && sen.getText().equalsIgnoreCase("admin"))) { //Logins de funcionários
+                                while (t_cin != 3) { //Enquanto diferente de "Log-Out"
+                                    t_cin = JOptionPane.showOptionDialog(null, "Bem vindo Sr(a)," + usu.getText() +
+                                                "como podemos lhe ajudar hoje?", "Frutaria Celeste",
+                                                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, ops_C, ops_C[3]);
+                                    if (t_cin == 0) { //Opção "Comprar produtos"
+                                        while (t_c != 2) {
+                                            t_c = JOptionPane.showOptionDialog(null, e_fru, "Produtos",
+                                                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, e_fru, e_fru[2]);
+                                            while (t_car != 2) {
+                                                t_car = JOptionPane.showOptionDialog(null, e_fru, "Produtos",
+                                                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, e_fru, e_fru[2]);
+                                            }
+                                        }
+                                    }
+                                    if (t_cin == 1) { //Opção "Promoções da vez"
+
+                                    }
+                                    if (t_cin == 2) { //Opção "Parceiros"
+
+                                    }
+                                }
+                        } else {
+                            if (idx.getText().equalsIgnoreCase("admin")){}
+                            else {
+                                JOptionPane.showOptionDialog(null, "Dados incorretos, tente novamente!\n",
+                                        "ERR0R", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, ops_G, ops_G[1]);
+                            }
+                        }
+                    } catch (NumberFormatException e) { //Para situações onde não são colocadas nenhuma informação na tela de Login
+                        if (idx.getText().equalsIgnoreCase("admin")) {}
+                        else {
+                            JOptionPane.showOptionDialog(null, "Dados incorretos, tente novamente!\n",
+                                    "ERR0R", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, ops_G, ops_G[1]);
+                        }
+                    }
+
+                    if ((usu.getText().equalsIgnoreCase("Laila") && sen.getText().equalsIgnoreCase("admin")) //Logins de funcionários
+                            || (usu.getText().equalsIgnoreCase("TheLegend27") && sen.getText().equalsIgnoreCase("admin"))) {
                         while (t_f != 3) { //Enquanto diferente de 'Log-out'
                             t_f = JOptionPane.showOptionDialog(null, "Um ótimo dia de trabalho, Sr(a)" + usu.getText() + "!",
                                     "Opções de administração", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, ops_F, ops_F[3]);
@@ -74,9 +118,9 @@ public class X {
                                 while (t_v != 3) {
                                     try {
                                         t_v = JOptionPane.showOptionDialog(null, "ID " + id_cont + ":\n" +
-                                                        "Usuário: " + log[id_cont][0][0][0] + "\nEndereço: " + log[id_cont][0][1][1]
-                                                        + "\nTelefone: " + log[id_cont][1][1][1], "Listagem de usuários",
-                                                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, ver_F, ver_F[3]);
+                                                        "Usuário: " + log[id_cont][0][0][0][0] + "\nEndereço: " + log[id_cont][0][0][1][1]
+                                                        + "\nTelefone: " + log[id_cont][0][1][1][1] + "\nSolicitou entrega: " + log[id_cont][1][1][1][1], "Listagem de usuários",
+                                                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, ver_F, ver_F[3]);
                                         if (t_v == 0) //Opção "Próximo"
                                             id_cont++;
                                         if (t_v == 1) //Opção "Anterior"
