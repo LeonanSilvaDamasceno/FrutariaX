@@ -166,6 +166,8 @@ public class Frutadoce {
 			}
 		}
 	}
+	}
+}
 	public static Produtos[] produtos (Produtos [] prods){ //Listagem do nome do produto, quantidade e valor sequencialmente.
 		Produtos pro=new Produtos();
 		pro.nome  = "Banana";
@@ -654,7 +656,7 @@ public class Frutadoce {
 			pw.flush();
 			pw.close();	
 		}
-		private static boolean cadastrarCliente(int id, String path) {
+		private static boolean cadastrarCliente(String id, String path) {
 			Scanner leia = new Scanner(System.in);
 			Clientes c = new Clientes();
 			System.out.println("Cadastrando cliente - "+id);
