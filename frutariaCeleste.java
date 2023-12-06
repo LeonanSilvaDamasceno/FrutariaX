@@ -15,17 +15,15 @@ import javax.swing.ImageIcon;
 
 public class frutariaCeleste {
 
-    public static void main(String[] args) {
-        int id = 0, idx, op = 6;
-        int[] ids = new int[3];
-        String path = "compras/";
+    public static void main(String[] args) throws IOException {
+        int id = 0, idx, op;
+        int[] ids;
 
         Scanner leia = new Scanner(System.in);
 
         String[] pastas = {"clientes/", "produtos/", "compras/"};
         String[] arqIds = {"idclientes.txt", "idprodutos.txt", "idcompras.txt"};
 
-        Compras c = new Compras();
         ids = inicializar(pastas, arqIds);
 
         do {
@@ -34,14 +32,14 @@ public class frutariaCeleste {
             switch (op) {
                 case 1:
                     idx = loginCliente(pastas);
-                    menus(path, idx, id, pastas);
+                    menus(idx, id, pastas);
                     break;
                 case 2:
                     if (cadastrarCliente(ids[0], pastas[0])) {
                         ids[0]++;
                         gravarId(ids[0], arqIds[0]);
                     }
-                    id = inicializar(path);
+                    id = inicializar(pastas[2]);
                     break;
                 case 3:
                     System.out.print("Saindo...");
@@ -50,7 +48,7 @@ public class frutariaCeleste {
         } while (op != 3);
     }
 
-    private static void menu_ini() {
+    private static void menu_ini() { //Visualização da tela inicial
         System.out.println("""
                 ------------FRUTARIA CELESTE-------------
                 1 - Login
@@ -60,22 +58,32 @@ public class frutariaCeleste {
 
     }
 
-    private static void menu_fun() {
+    private static void menu_fun() { //Visualização de opções dos funcionários
         System.out.println("""
                 -----------ADMIN--------------
+                
+                ==========CLIENTES============
                 1 - Listar clientes
                 2 - Buscar cliente
                 3 - Remover cliente
+                
+                ==========PRODUTOS============
                 4 - Cadastrar produto
                 5 - Listar produtos
                 6 - Listar compras
                 7 - Buscar produtos
-                8 - Remover compras
-                9 - Resetar compras
-                10- Resetar produtos
+                
+                ==========COMPRAS=============
+                8 - Listar compras
+                9 - Buscar compras
+                10- Remover compras
+                
+                ==========RESETAR=============
                 11- Resetar clientes
-                12- Resetar todos
-                13- Sair
+                12- Resetar produtos
+                13- Resetar compras
+                14- Resetar todos
+                15- Sair
                 -----------ADMIN--------------""");
     }
 
@@ -83,82 +91,96 @@ public class frutariaCeleste {
         System.out.println("""
                 ------------FRUTARIA CELESTE-------------
                 1 - Adicionar ao carrinho
-                2 - Remover pedido
-                3 - Parceiria
-                4 - Concluir
+                2 - Verificar pedidos
+                3 - Remover pedido
+                4 - Parceiria
+                5 - Concluir
                 ------------FRUTARIA CELESTE-------------""");
     }
 
-    private static void menus(String path, int idx, int id, String[] pastas) {
+    private static void menus(int idx, int id, String[] pastas) throws IOException {
         Scanner leia = new Scanner(System.in);
-        int op = -1;
-        if (idx > 0) {
+        int op;
+        if (idx >= 0) {
             do {
                 menu_cli();
                 op = leia.nextInt();
                 switch (op) {
                     case 1:
-                        cadastrarCompras(idx, path);
+                        cadastrarCompras(idx, pastas[2]);
                         break;
                     case 2:
-                        removerCompras(path, idx);
+                        buscarCarrinho(idx, pastas[2]);
                         break;
                     case 3:
-                        parceiria();
-                        break;
-                    case 4:
-                        System.out.println("Enviando pedido...");
-                        System.out.println("Pedido enviado!");
-                }
-            } while (op != 4);
-        } else {
-            do {
-                menu_fun();
-                op = leia.nextInt();
-                switch (op) {
-                    case 1:
-                        listarCliente(pastas[0]);
-                        break;
-                    case 2:
-                        buscarCliente(pastas[0]);
-                        break;
-                    case 3:
-                        removerCliente(pastas[0]);
-                        break;
-                    case 4:
-                        cadastrarProduto(id, pastas[1]);
-                        break;
-                    case 5:
-                        listarProdutos(pastas[1]);
-                        break;
-                    case 6:
-                        buscarProdutos(pastas[1]);
-                        break;
-                    case 7:
-                        removerProdutos(pastas[1]);
-                        break;
-                    case 8:
                         removerCompras(pastas[2], idx);
                         break;
-                    case 9:
-                        resetarCompras(pastas[2]);
+                    case 4:
+                        parceiria();
                         break;
-                    case 10:
-                        resetarProdutos(pastas[1]);
-                        break;
-                    case 11:
-                        resetarCliente(pastas[0]);
-                        break;
-                    case 12:
-                        resetar(pastas);
-                        break;
-                    case 13:
-                        System.out.println("Um ótimo dia, Admin!");
+                    case 5:
+                        System.out.println("Enviando pedido...");
+                        System.out.println("Pedido enviado!");
                         break;
                 }
-            } while (op != 13);
+            } while (op != 5);
+        } else {
+            if (idx == -7) {
+                do {
+                    menu_fun();
+                    op = leia.nextInt();
+                    switch (op) {
+                        case 1:
+                            listarCliente(pastas[0]);
+                            break;
+                        case 2:
+                            buscarCliente(pastas[0]);
+                            break;
+                        case 3:
+                            removerCliente(pastas[0]);
+                            break;
+                        case 4:
+                            cadastrarProduto(id, pastas[1]);
+                            break;
+                        case 5:
+                            listarProdutos(pastas[1]);
+                            break;
+                        case 6:
+                            buscarProdutos(pastas[1]);
+                            break;
+                        case 7:
+                            removerProdutos(pastas[1]);
+                            break;
+                        case 8:
+                            listarCompras(pastas[2]);
+                            break;
+                        case 9:
+                            buscarCompras(pastas[2]);
+                            break;
+                        case 10:
+                            removerCompras(pastas[2], idx);
+                            break;
+                        case 11:
+                            resetarCliente(pastas[0]);
+                            break;
+                        case 12:
+                            resetarProdutos(pastas[1]);
+                            break;
+                        case 13:
+                            resetarCompras(pastas[2]);
+                            break;
+                        case 14:
+                            resetar(pastas);
+                            break;
+                        case 15:
+                            System.out.println("Um ótimo dia, Admin!");
+                            break;
+                    }
+                } while (op != 15);
+            }
         }
     }
+
 
     private static int inicializar(String path) {
         int id = 0;
@@ -174,7 +196,7 @@ public class frutariaCeleste {
                 System.out.println("Não foi possível criar o ID");
                 e.printStackTrace();
             }
-            gravarId(0);
+            gravarId("id",0);
         } else {
             id = lerId();
         }
@@ -207,11 +229,13 @@ public class frutariaCeleste {
         return id;
     }
 
+
     private static void parceiria() {
         final ImageIcon icon = new ImageIcon("P_L.png");
         JOptionPane.showMessageDialog(null, "Melhores produtos vendidos com alta qualidade!"
                 , "HIPERMERCADO DO SR.JÃO", JOptionPane.PLAIN_MESSAGE, icon);
     }
+
 
     private static int lerId() {
         BufferedReader bf;
@@ -241,7 +265,6 @@ public class frutariaCeleste {
         return id;
     }
 
-
     private static void gravarId(int id, String arq) {
         PrintWriter pw;
         try {
@@ -254,17 +277,16 @@ public class frutariaCeleste {
         }
     }
 
-    private static void gravarId(int id) {
+    private static void gravarId(String arq, int id) {
         PrintWriter pw;
         try {
-            pw = new PrintWriter("id.txt");
+            pw = new PrintWriter(arq+".txt");
             pw.println(id);
             pw.flush();
             pw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -307,35 +329,42 @@ public class frutariaCeleste {
     }
 
     private static Clientes lerCliente(int id, String path) throws IOException {
-        BufferedReader bf = new BufferedReader(new FileReader(path + id + ".txt"));
-        Clientes c = new Clientes();
-        c.id = Integer.parseInt(bf.readLine());
-        c.usu = bf.readLine();
-        c.nome = bf.readLine();
-        c.senha = bf.readLine();
-        c.endereco = bf.readLine();
-        c.telefone = bf.readLine();
-        bf.close();
-        return c;
+        try {
+            BufferedReader bf = new BufferedReader(new FileReader(path + id + ".txt"));
+            Clientes c = new Clientes();
+            c.id = Integer.parseInt(bf.readLine());
+            c.usu = bf.readLine();
+            c.nome = bf.readLine();
+            c.senha = bf.readLine();
+            c.endereco = bf.readLine();
+            c.telefone = bf.readLine();
+            bf.close();
+            return c;
+        } catch (Error | Exception e) {
+            System.out.println();
+            return null;
+        }
     }
 
     private static void listarCliente(String path) {
         File dir = new File(path);
         String[] arquivos = dir.list();
-        for (int i = 0; i < arquivos.length; i++) {
-            int id = Integer.parseInt(arquivos[i].substring(0, arquivos[i].length() - 4));
-            try {
+        try {
+            for (int i = 0; i < arquivos.length; i++) {
+                int id = Integer.parseInt(arquivos[i].substring(0, arquivos[i].length() - 4));
                 Clientes c = lerCliente(id, path);
-                System.out.println(c.id + " - " + c.usu + " - " + c.nome + " - " + c.senha + " - " + c.endereco + " - "
-                        + c.telefone);
-            } catch (IOException e) {
+                if (c != null) {
+                    System.out.println(c.id + " - " + c.usu + " - " + c.nome + " - " + c.senha + " - " + c.endereco + " - "
+                            + c.telefone);
+                }
+            }
+        } catch (IOException | NullPointerException e) {
                 System.out.println("Cliente não identificado.");
                 e.printStackTrace();
-            }
         }
         if (arquivos.length == 1) {
             System.out.println("Não existem contatos cadastrados.");
-        }
+        } //Changed try catch
     }
 
     private static int loginCliente(String[] pastas) {
@@ -346,8 +375,8 @@ public class frutariaCeleste {
         user = leia.nextLine();
         System.out.println("Digite sua senha: ");
         senha = leia.nextLine();
-        if (user.equals("admin") && senha.equals("admin")) {
-            System.out.println("Seja bem vindo, Admin!");
+        if (user.equalsIgnoreCase("admin") && senha.equalsIgnoreCase("admin")) {
+            System.out.println("Seja bem vinda(o), Admin!");
             return -7;
         } else {
             try {
@@ -374,12 +403,14 @@ public class frutariaCeleste {
     private static Clientes buscarCliente(String path) {
         Scanner leia = new Scanner(System.in);
         int id;
-        Clientes c = new Clientes();
-        System.out.println("Por favor, digite o ID do cliente: ");
+        Clientes c; //Removed new Client
+        System.out.println("Por favor, digite o ID da(o) cliente: ");
         id = leia.nextInt();
         try {
             c = lerCliente(id, path);
-
+            if (c != null) {
+                System.out.println(c.id + " - " + c.usu + " - " + c.nome + " - " + c.senha + " - " + c.endereco + " - " + c.telefone);
+            }
         } catch (IOException e) {
             return null;
         }
@@ -411,14 +442,18 @@ public class frutariaCeleste {
             File dir = new File(path);
             if (dir.exists()) {
                 String[] arquivos = dir.list();
-                for (int i = 0; i < arquivos.length; i++) {
-                    File arq = new File(path + arquivos[i]);
-                    if (arq.delete())
-                        System.out.println("Apagando clientes..." + arquivos[i].substring(0, arquivos[i].length() - 4));
+                try {
+                    for (int i = 0; i < arquivos.length; i++) {
+                        File arq = new File(path + arquivos[i]);
+                        if (arq.delete())
+                            System.out.println("Apagando clientes..." + arquivos[i].substring(0, arquivos[i].length() - 4));
+                    }
+                    dir.delete();
+                } catch (NullPointerException e){
+                    System.out.println("ERR0R na exclusão de pastas");
                 }
-                dir.delete();
             }
-            gravarId(0);
+            gravarId("idclientes",0);
         }
     }
 
@@ -432,23 +467,23 @@ public class frutariaCeleste {
         pw.close();
     }
 
-    private static boolean cadastrarProduto(int id, String path) {
+    private static void cadastrarProduto(int id, String path) { //Removed boolean
         Scanner leia = new Scanner(System.in);
         Produtos c = new Produtos();
         System.out.println("Cadastrando produtos - " + id);
-        System.out.println(" Nome: ");
+        System.out.println("Nome: ");
         c.nome = leia.nextLine();
-        System.out.println(" Preço: ");
+        System.out.println("Preço: ");
         c.preco = Double.parseDouble(leia.nextLine());
         c.id = id;
         try {
             gravarProduto(c, path);
+            System.out.println("Produto cadastrado com êxito!");
         } catch (FileNotFoundException e) {
             System.out.println("Não foi possivel gravar o produto");
             e.printStackTrace();
-            return false;
+            //false
         }
-        return true;
     }
 
     private static Produtos lerProduto(int id, String path) throws IOException {
@@ -479,22 +514,23 @@ public class frutariaCeleste {
         }
     }
 
-    private static Produtos buscarProdutos(String path) {
+    private static void buscarProdutos(String path) {
         Scanner leia = new Scanner(System.in);
         int id;
-        Produtos c = new Produtos();
+        Produtos c;
         System.out.println("Por favor, digite o ID do produto: ");
         id = leia.nextInt();
         try {
             c = lerProduto(id, path);
-
+            if (c != null) {
+                System.out.println(c.id + " - " + c.nome + " - " + c.preco);
+            }
         } catch (IOException e) {
-            return null;
+            System.out.print("ERR0R" + e);
         }
-        return c;
     }
 
-    private static void removerProdutos(String path) {
+    private static void removerProdutos(String path) { //boolean removed
         Scanner leia = new Scanner(System.in);
         int id;
         System.out.println("Qual o ID do produto a ser removido?");
@@ -511,26 +547,30 @@ public class frutariaCeleste {
     }
 
     private static void resetarProdutos(String path) {
-        path = "produtos/";
         Scanner leia = new Scanner(System.in);
         System.out.println("Tem certeza que deseja apagar os produtos (s/n)? ");
         char op = leia.next().charAt(0);
         if (op == 's') {
             File dir = new File(path);
-            if (dir.exists()) {
-                String[] arquivos = dir.list();
-                for (int i = 0; i < arquivos.length; i++) {
-                    File arq = new File(path + arquivos[i]);
-                    if (arq.delete())
-                        System.out.println("Apagando produtos..." + arquivos[i].substring(0, arquivos[i].length() - 4));
+            try {
+                if (dir.exists()) {
+                    String[] arquivos = dir.list();
+                    for (int i = 0; i < arquivos.length; i++) {
+                        File arq = new File(path + arquivos[i]);
+                        if (arq.delete())
+                            System.out.println("Apagando produtos..." + arquivos[i].substring(0, arquivos[i].length() - 4));
+                    }
+                    dir.delete();
                 }
-                dir.delete();
+            } catch (NullPointerException e) {
+                System.out.println("ERR0R " + e);
             }
-            gravarId(0);
+            gravarId("idprodutos",0);
         }
     }
 
-    private static boolean cadastrarCompras(int id, String path)  {
+
+    private static void cadastrarCompras(int id, String path)  { //void
         Scanner leia = new Scanner(System.in);
         int idx, qtd; Double temp;
         Compras c = new Compras();
@@ -570,31 +610,94 @@ public class frutariaCeleste {
         } catch (IOException e) {
             System.out.println("Não foi possivel gravar o pedido...");
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     private static void gravarCompras(Compras c, String path) throws IOException {
         File arquivo = new File(path + c.idCliente + ".txt");
         arquivo.createNewFile();
         BufferedWriter bw = new BufferedWriter(new FileWriter(path + c.id + ".txt", true));
+        bw.append("------------FRUTARIA CELESTE-------------\n");
         bw.append(c.idCliente + "\n");
         for (int i = 0; i < c.produtos.length; i++) {
             Produtos e = c.produtos[i];
             if (e != null)
                 try {
-                    bw.append("Produtos:\n");
                     bw.append("Nome produto: " + e.nome + "\n");
                     bw.append("Quantidade: " + e.qtd + "\n");
-                    bw.append("Preço: " + e.preco + "\n");
+                    bw.append("Preço: " + e.preco + "\n\n");
                 } catch (IOException err) {
                     err.printStackTrace();
                 }
         }
-        bw.append("Preço total: R$" + c.preco + ".");
+        bw.append("Preço total: R$" + c.preco + ".\n------------FRUTARIA CELESTE-------------");
         bw.flush();
         bw.close();
+    }
+
+    private static void buscarCarrinho(int id, String path) {
+        try {
+            File local = new File(path + id + ".txt");
+            BufferedReader list = new BufferedReader (new FileReader(local));
+            String s = list.readLine();
+            if (local.exists()) {
+                while (!s.equals("")) {
+                    System.out.println(s);
+                    s = list.readLine();
+                }
+            } else {
+                System.out.println("Compra não disponível tente novamente após atualizar o sistema ou criar um registro de compra!");
+            }
+        } catch (Error | Exception e) {
+            System.out.println("ERR0R" + e);
+        }
+    }
+
+    private static void buscarCompras(String path) {
+        Scanner leia =  new Scanner(System.in);
+        System.out.println("Digite o ID da(o) cliente: ");
+        int id = leia.nextInt();
+        try {
+            File local = new File(path + id + ".txt");
+            BufferedReader list = new BufferedReader (new FileReader(local));
+            String s = list.readLine();
+            if (local.exists()) {
+                while (!s.equals("")) {
+                    System.out.println(s);
+                    s = list.readLine();
+                }
+            } else {
+                System.out.println("Compra não disponível tente novamente após atualizar o sistema ou criar um registro de compra!");
+            }
+        } catch (Error | Exception e) {
+            System.out.println();
+        }
+    }
+
+    private static void listarCompras(String path) {
+        File dir = new File(path);
+        String[] arquivos = dir.list();
+        for (int i = 0; i < arquivos.length; i++) {
+            int id = Integer.parseInt(arquivos[i].substring(0, arquivos[i].length() - 4));
+            try {
+                File local = new File(path + id + ".txt");
+                BufferedReader list = new BufferedReader(new FileReader(local));
+                String s = list.readLine();
+                if (local.exists()) {
+                    while (!s.equals("")) {
+                        System.out.println(s);
+                        s = list.readLine();
+                    }
+                } else {
+                    System.out.println("Compra não disponível tente novamente após atualizar o sistema ou criar um registro de compra!");
+                }
+            } catch (Error | Exception e) {
+                System.out.println();
+            }
+            if (arquivos.length == 0) {
+                System.out.println("Não existem produtos cadastrados...");
+            }
+        }
     }
 
     private static void removerCompras(String path, int idx) {
@@ -634,14 +737,18 @@ public class frutariaCeleste {
             File dir = new File(path);
             if (dir.exists()) {
                 String[] arquivos = dir.list();
-                for (int i = 0; i < arquivos.length; i++) {
-                    File arq = new File(path + arquivos[i]);
-                    if (arq.delete())
-                        System.out.println("Apagando compras..." + arquivos[i].substring(0, arquivos[i].length() - 4));
+                try {
+                    for (int i = 0; i < arquivos.length; i++) {
+                        File arq = new File(path + arquivos[i]);
+                        if (arq.delete())
+                            System.out.println("Apagando compras..." + arquivos[i].substring(0, arquivos[i].length() - 4));
+                    }
+                    dir.delete();
+                } catch (NullPointerException e) {
+                    System.out.println("ERR0R " + e);
                 }
-                dir.delete();
             }
-            gravarId(0);
+            gravarId("idcompras",0);
         }
     }
 
@@ -650,18 +757,27 @@ public class frutariaCeleste {
         int num;
         System.out.println("Tem certeza que deseja apagar tudo (s/n)? ");
         char op = leia.next().charAt(0);
-        for (num = 0; num < 3; num-- ){
+        if (op == 83 || op == 115){ //Valores "S" e "s" em Ascii
+        for (num = 0; num < 3; num++) {
             File dir = new File(pastas[num]);
-            if (dir.exists()) {
-                String[] arquivos = dir.list();
-                for (int i = 0; i < arquivos.length; i++) {
-                    File arq = new File(pastas[num] + arquivos[i]);
-                    if (arq.delete())
-                        System.out.println("Apagando..." + arquivos[i].substring(0, arquivos[i].length() - 4));
+            try {
+                if (dir.exists()) {
+                    String[] arquivos = dir.list();
+                    for (int i = 0; i < arquivos.length; i++) {
+                        File arq = new File(pastas[num] + arquivos[i]);
+                        if (arq.delete())
+                            System.out.println("Apagando..." + arquivos[i].substring(0, arquivos[i].length() - 4));
+                    }
+                    dir.delete();
                 }
-                dir.delete();
+            } catch (NullPointerException e) {
+                System.out.println("ERR0R " + e);
             }
-            gravarId(0);
+        }
+            gravarId("id",0);
+            gravarId("idclientes",0);
+            gravarId("idcompras",0);
+            gravarId("idprodutos",0);
         }
     }
 }
