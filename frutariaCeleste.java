@@ -1,4 +1,4 @@
-package Frutaria;
+package frutaria;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 
 public class frutariaCeleste {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
         int id, op; //'id' é um identificador comum podendo ser visto no 'login', 'op' é o mesmo que opção.
         int[] ids; //Varoável responsável pelo armazenamento de indexes para clientes, produtos e compras
 
@@ -228,7 +228,7 @@ public class frutariaCeleste {
         return id;
     } //Usado em outros métodos para gravação e listagem de elementos
 
-    private static void gravarId(int id, String arq) { //Responsável por atualizar indexes em cada arquivo de texto criado em "inicializar"
+    private static void gravarId(int id, String arq) { 
         PrintWriter pw;
         try {
             pw = new PrintWriter(arq);
@@ -238,7 +238,7 @@ public class frutariaCeleste {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
+    } //Responsável por atualizar indexes em cada arquivo de texto criado em "inicializar"
 
 
     private static boolean cadastrarCliente(int ids, String path) {
@@ -277,7 +277,7 @@ public class frutariaCeleste {
         pw.flush();
         pw.close();
 
-    }
+    } //Grava o cliente em um arquivo
 
     private static Clientes lerCliente(int id, String path) throws IOException {
         try {
@@ -295,7 +295,7 @@ public class frutariaCeleste {
             System.out.println();
             return null;
         }
-    }
+    } //Usado para fazer operações de listagem e busca de clientes
 
     private static void listarCliente(String path) {
         File dir = new File(path);
@@ -315,7 +315,7 @@ public class frutariaCeleste {
         }
         if (arquivos.length == 1) {
             System.out.println("Não existem contatos cadastrados.");
-        } //Changed try catch
+        } 
     }
 
     private static int loginCliente(String[] pastas) {
@@ -367,7 +367,7 @@ public class frutariaCeleste {
         }
     } //Busca por um cliente específico
 
-    private static void removerCliente(String path) {
+    private static void removerCliente(String path) { 
         Scanner leia = new Scanner(System.in);
         int id;
         System.out.println("Qual é o ID do cliente a ser removido? ");
@@ -381,7 +381,7 @@ public class frutariaCeleste {
             else
                 System.out.println("Cliente não removido - ERR0R");
         }
-    }
+    } //Remove um cliente específico
 
     private static void resetarCliente(String path) {
         Scanner leia = new Scanner(System.in);
@@ -416,7 +416,7 @@ public class frutariaCeleste {
         pw.close();
     }
 
-    private static void cadastrarProduto(int id, String path) { //Removed boolean
+    private static void cadastrarProduto(int id, String path) {
         Scanner leia = new Scanner(System.in);
         Produtos c = new Produtos();
         System.out.println("Cadastrando produtos - " + id);
@@ -521,7 +521,7 @@ public class frutariaCeleste {
 
     private static void cadastrarCompras(int id, String path)  { //void
         Scanner leia = new Scanner(System.in);
-        int idx, qtd; Double temp;
+        int idx, qtd;
         Compras c = new Compras();
         c.idCliente = id;
         c.id = id;
