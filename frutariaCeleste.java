@@ -1,4 +1,4 @@
-package frutaria;
+package Frutaria;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -115,7 +115,7 @@ public class frutariaCeleste {
                         removerCompras(pastas[2], idx);
                         break;
                     case 4:
-                        parceiria();
+                        parceria();
                         break;
                     case 5:
                         System.out.println("Enviando pedido...");
@@ -228,7 +228,7 @@ public class frutariaCeleste {
         return id;
     } //Usado em outros métodos para gravação e listagem de elementos
 
-    private static void gravarId(int id, String arq) { 
+    private static void gravarId(int id, String arq) {
         PrintWriter pw;
         try {
             pw = new PrintWriter(arq);
@@ -315,7 +315,7 @@ public class frutariaCeleste {
         }
         if (arquivos.length == 1) {
             System.out.println("Não existem contatos cadastrados.");
-        } 
+        }
     }
 
     private static int loginCliente(String[] pastas) {
@@ -367,7 +367,7 @@ public class frutariaCeleste {
         }
     } //Busca por um cliente específico
 
-    private static void removerCliente(String path) { 
+    private static void removerCliente(String path) {
         Scanner leia = new Scanner(System.in);
         int id;
         System.out.println("Qual é o ID do cliente a ser removido? ");
