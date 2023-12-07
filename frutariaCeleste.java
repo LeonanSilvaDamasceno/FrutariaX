@@ -1,4 +1,4 @@
-package Frutaria;
+package frutaria;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -69,8 +69,8 @@ public class frutariaCeleste {
                 ==========PRODUTOS============
                 4 - Cadastrar produto
                 5 - Listar produtos
-                6 - Listar compras
-                7 - Buscar produtos
+                6 - Buscar compras
+                7 - Remover produtos
                 
                 ==========COMPRAS=============
                 8 - Listar compras
