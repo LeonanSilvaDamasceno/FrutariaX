@@ -207,7 +207,7 @@ public class frutariaCeleste {
         return id;
     }
 
-    private static void parceiria() {
+    private static void parceria() {
         final ImageIcon icon = new ImageIcon("P_L.png");
         JOptionPane.showMessageDialog(null, "Melhores produtos vendidos com alta qualidade!"
                 , "HIPERMERCADO DO SR.JÃO", JOptionPane.PLAIN_MESSAGE, icon);
