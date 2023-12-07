@@ -69,7 +69,7 @@ public class frutariaCeleste {
                 ==========PRODUTOS============
                 4 - Cadastrar produto
                 5 - Listar produtos
-                6 - Buscar compras
+                6 - Buscar produtos
                 7 - Remover produtos
                 
                 ==========COMPRAS=============
@@ -83,6 +83,7 @@ public class frutariaCeleste {
                 13- Resetar compras
                 14- Resetar todos
                 15- Sair
+                
                 -----------ADMIN--------------""");
     } //Menu para funcionários
 
@@ -92,7 +93,7 @@ public class frutariaCeleste {
                 1 - Adicionar ao carrinho
                 2 - Verificar pedidos
                 3 - Remover pedido
-                4 - Parceiria
+                4 - Parceria
                 5 - Concluir
                 ------------FRUTARIA CELESTE-------------""");
     } //Menu para clientela
@@ -313,7 +314,7 @@ public class frutariaCeleste {
                 System.out.println("Cliente não identificado.");
                 e.printStackTrace();
         }
-        if (arquivos.length == 1) {
+        if (arquivos.length == 0) {
             System.out.println("Não existem contatos cadastrados.");
         }
     }
@@ -338,7 +339,7 @@ public class frutariaCeleste {
                 veri_n = bf.readLine();
                 veri_s = bf.readLine();
                 if (veri_n.equals(user) && veri_s.equals(senha)) {
-                    System.out.println("Seja bem vindo, " + user + "!");
+                    System.out.println("Seja bem vinda(o), " + user + "!");
                     return id;
                 } else {
                     System.out.println("Dados de login incorretos!");
